@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+   
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        Parse.initializeWithConfiguration(
+            ParseClientConfiguration(block: { (configuration:ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "Thegram"
+                configuration.clientKey = "86r75tdtuf6r6887647yt"
+                configuration.server = "https://calm-coast-50599.herokuapp.com/parse"
+            })
+        )
+        
+        
+        if PFUser.currentUser() != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            let vc = storyboard.instantiateViewControllerWithIdentifier("TabBar") as UIViewController
+            window?.rootViewController = vc
+        }
+        
         return true
     }
 
